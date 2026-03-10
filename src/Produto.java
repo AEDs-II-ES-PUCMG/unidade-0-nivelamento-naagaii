@@ -1,4 +1,6 @@
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public abstract class Produto {
 
@@ -52,6 +54,38 @@ public abstract class Produto {
 	}
 
 	public abstract String gerarDadosTexto();
+
+	static Produto criarDoTexto(String linha) {
+		Produto novoProduto = null;
+
+		String[] pedacos = linha.split(";");
+
+		String tipo = pedacos[0];
+
+		String descricao = pedacos[1];
+		double preco = Double.parseDouble(pedacos[2]);
+		double margem = Double.parseDouble(pedacos[3]);
+
+		if (tipo.equals("1")) {
+
+			// DESAFIO 1: Como você cria o "novoProduto" sendo ProdutoNaoPerecivel usando
+			// a descricao, preco e margem que separamos acima?
+			novoProduto = new ProdutoNaoPerecivel(descricao, preco, margem);
+
+		} else if (tipo.equals("2")) {
+
+			String dataTexto = pedacos[4];
+
+			DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+			LocalDate dataValidade = LocalDate.parse(dataTexto, formatador);
+
+			novoProduto = new ProdutoPerecivel(descricao, preco, margem, dataValidade);
+
+		}
+		return novoProduto;
+	}
+
 	/**
 	 * Retorna o valor de venda do produto, considerando seu preço de custo e margem
 	 * de lucro.
