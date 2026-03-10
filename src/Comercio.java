@@ -59,7 +59,30 @@ public class Comercio {
      */
     static Produto[] lerProdutos(String nomeArquivoDados) {
         Produto[] vetorProdutos;
-        //TO DO
+        try{
+            File arquivo = new File(nomeArquivoDados);
+            Scanner leitorArquivo = new Scanner(arquivo);
+
+            String primeiraLinha = leitorArquivo.nextLine();
+            int quantidadeN = Integer.parseInt(primeiraLinha);
+
+            quantosProdutos = quantidadeN;
+
+            vetorProdutos = new Produto[quantidadeN + MAX_NOVOS_PRODUTOS];
+
+            for(int i = 0; i < quantidadeN; i++){
+                String linhaAtual = leitorArquivo.nextLine();
+                vetorProdutos[i] = Produto.criarDoTexto(linhaAtual);
+            }
+
+            leitorArquivo.close();
+        }
+
+        catch (Exception e) {
+        // Se der erro (ex: arquivo não existe), retornar um vetor vazio
+        System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+        vetorProdutos = new Produto[0]; 
+    }
         return vetorProdutos;
     }
 
