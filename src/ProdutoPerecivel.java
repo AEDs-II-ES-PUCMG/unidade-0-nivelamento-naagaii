@@ -25,7 +25,7 @@ public class ProdutoPerecivel extends Produto {
         if(diasRestantes <= 0){
             throw new IllegalArgumentException("Produto vencido.");
         }
-        if(diasRestantes <= 7){
+        if(diasRestantes <= PRAZO_DESCONTO){
             valorBase = valorBase - (valorBase * DESCONTO);
         }
         
